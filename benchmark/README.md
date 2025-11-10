@@ -32,4 +32,4 @@ python benchmark/run.py
 
 ### loads
 
-![TOML loads benchmark](loads.svg)
+![YAML loads benchmark](loads.svg)

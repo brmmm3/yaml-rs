@@ -25,7 +25,7 @@ fn _loads(py: Python, s: &str, parse_datetime: bool) -> PyResult<Py<PyAny>> {
 }
 
 #[pymodule(name = "_yaml_rs")]
-fn toml_rs(m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn yaml_rs(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(_loads, m)?)?;
     m.add("_version", env!("CARGO_PKG_VERSION"))?;
     m.add("YAMLDecodeError", m.py().get_type::<YAMLDecodeError>())?;
