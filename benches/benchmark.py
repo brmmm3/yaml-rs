@@ -65,13 +65,28 @@ def show_benchmarks(
     print()
 
 
-def benchmark(filename: str):
+def benchmark(filename: str, iterations: int = 1):
     pathname = f"testdata/{filename}"
     outpathname = pathname.replace("testdata", "testresults")
     outpathname_yaml_rs = outpathname.replace(".yaml", "_yaml_rs.yaml")
     outpathname_yaml = outpathname.replace(".yaml", "_yaml.yaml")
-    dt_yaml_rs_load, dt_yaml_rs_save = benchmark_yaml_rs(pathname, outpathname_yaml_rs)
-    dt_yaml_load, dt_yaml_save = benchmark_yaml(pathname, outpathname_yaml)
+    dt_yaml_rs_load_sum = 0
+    dt_yaml_rs_save_sum = 0
+    dt_yaml_load_sum = 0
+    dt_yaml_save_sum = 0
+    for _ in range(iterations):
+        dt_yaml_rs_load, dt_yaml_rs_save = benchmark_yaml_rs(
+            pathname, outpathname_yaml_rs
+        )
+        dt_yaml_load, dt_yaml_save = benchmark_yaml(pathname, outpathname_yaml)
+        dt_yaml_rs_load_sum += dt_yaml_rs_load
+        dt_yaml_rs_save_sum += dt_yaml_rs_save
+        dt_yaml_load_sum += dt_yaml_load
+        dt_yaml_save_sum += dt_yaml_save
+    dt_yaml_rs_load_sum /= iterations
+    dt_yaml_rs_save_sum /= iterations
+    dt_yaml_load_sum /= iterations
+    dt_yaml_save_sum /= iterations
     show_benchmarks(
         filename, dt_yaml_rs_load, dt_yaml_rs_save, dt_yaml_load, dt_yaml_save
     )
@@ -126,9 +141,9 @@ def benchmark_threaded(filename: str):
 if __name__ == "__main__":
     if not os.path.exists("testresults"):
         os.mkdir("testresults")
-    benchmark("garden.yaml")
-    benchmark("deep.yaml")
-    benchmark("deeper.yaml")
+    benchmark("garden.yaml", 10)
+    benchmark("deep.yaml", 10)
+    benchmark("deeper.yaml", 10)
     benchmark("1mb.yaml")
     benchmark("5mb.yaml")
     benchmark("15mb.yaml")
