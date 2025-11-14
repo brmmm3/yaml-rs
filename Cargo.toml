@@ -30,6 +30,7 @@ encoding = "0.2"
 thiserror = "2.0"
 pyo3 = { version = "0.27.1", features = ["extension-module"] }
 serde = { version = "1.0", features = ["derive"] }
+serde_yaml = "0.9"
 
 [profile.release]
 opt-level = 3

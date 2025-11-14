@@ -14,5 +14,7 @@ fn init(_py: Python, m: &Bound<PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(yaml::from_string, m)?)?;
     m.add_function(wrap_pyfunction!(yaml::dump, m)?)?;
     m.add_function(wrap_pyfunction!(yaml::save, m)?)?;
+    m.add_function(wrap_pyfunction!(yaml::dump_saphyr, m)?)?;
+    m.add_function(wrap_pyfunction!(yaml::save_saphyr, m)?)?;
     Ok(())
 }
