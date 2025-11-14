@@ -50,7 +50,8 @@ pub fn load(
     encoder_errors: Option<String>,
     py: Python<'_>,
 ) -> PyResult<Py<PyAny>> {
-    from_bytes(std::fs::read(path)?, encoding, encoder_errors, py)
+    let data = py.detach(|| std::fs::read(path))?;
+    from_bytes(data, encoding, encoder_errors, py)
 }
 
 #[pyfunction]
@@ -61,10 +62,9 @@ pub fn from_bytes(
     encoder_errors: Option<String>,
     py: Python<'_>,
 ) -> PyResult<Py<PyAny>> {
-    from_string(
-        &encode(&data, encoding.as_deref(), encoder_errors.as_deref())?,
-        py,
-    )
+    let encoded_data =
+        py.detach(|| encode(&data, encoding.as_deref(), encoder_errors.as_deref()))?;
+    from_string(&encoded_data, py)
 }
 
 #[pyfunction]
