@@ -1,5 +1,5 @@
 [package]
-name = "yaml-rs"
+name = "yaml_rs"
 version = "0.2.0"
 authors = ["Martin Bammer <mrbm74@gmail.com>"]
 description = "A fast YAML parser and generator written in Rust"
@@ -30,3 +30,8 @@ encoding = "0.2"
 thiserror = "2.0"
 pyo3 = { version = "0.27.1", features = ["extension-module"] }
 serde = { version = "1.0", features = ["derive"] }
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+strip = true
