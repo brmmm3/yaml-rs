@@ -1,0 +1,6 @@
+[build]
+rustflags = ["-C", "target-cpu=x86-64-v3", "-C", "linker-plugin-lto"]
+
+[target.aarch64-unknown-linux-gnu]
+linker = "aarch64-linux-gnu-gcc"
+rustflags = ["-C", "target-cpu=generic", "-C", "link-arg=-Wl,--gc-sections"]
