@@ -210,32 +210,39 @@ fn yaml_to_string(yaml: &saphyr::Yaml) -> PyResult<String> {
 /// Return Python object -> YAML string
 #[pyfunction]
 pub fn dump_saphyr(obj: Py<PyAny>, py: Python<'_>) -> PyResult<String> {
-    let yaml = py_to_yaml_saphyr(obj, py)?;
-    yaml_to_string(&yaml).map_err(|e| {
-        PyErr::new::<pyo3::exceptions::PyValueError, _>(format!("YAML dump error: {}", e))
+    let data = py_to_yaml_saphyr(obj, py)?;
+    py.detach(|| {
+        yaml_to_string(&data).map_err(|e| {
+            PyErr::new::<pyo3::exceptions::PyValueError, _>(format!("YAML dump error: {}", e))
+        })
     })
 }
 
 /// Write Python object -> YAML file
 #[pyfunction]
 pub fn save_saphyr(path: &str, obj: Py<PyAny>, py: Python<'_>) -> PyResult<()> {
-    std::fs::write(path, dump_saphyr(obj, py)?)
-        .map_err(|e| PyErr::new::<PyIOError, _>(e.to_string()))?;
-    Ok(())
+    let data = dump_saphyr(obj, py)?;
+    Ok(py.detach(|| {
+        std::fs::write(path, data).map_err(|e| PyErr::new::<PyIOError, _>(e.to_string()))
+    })?)
 }
 
 /// Return Python object -> YAML string
 #[pyfunction]
 pub fn dump(obj: Py<PyAny>, py: Python<'_>) -> PyResult<String> {
     let yaml = py_to_yaml(obj, py)?;
-    serde_yaml::to_string(&yaml).map_err(|e| {
-        PyErr::new::<pyo3::exceptions::PyValueError, _>(format!("YAML dump error: {}", e))
+    py.detach(|| {
+        serde_yaml::to_string(&yaml).map_err(|e| {
+            PyErr::new::<pyo3::exceptions::PyValueError, _>(format!("YAML dump error: {}", e))
+        })
     })
 }
 
 /// Write Python object -> YAML file
 #[pyfunction]
 pub fn save(path: &str, obj: Py<PyAny>, py: Python<'_>) -> PyResult<()> {
-    std::fs::write(path, dump(obj, py)?).map_err(|e| PyErr::new::<PyIOError, _>(e.to_string()))?;
-    Ok(())
+    let data = dump(obj, py)?;
+    Ok(py.detach(|| {
+        std::fs::write(path, data).map_err(|e| PyErr::new::<PyIOError, _>(e.to_string()))
+    })?)
 }
