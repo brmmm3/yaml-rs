@@ -1,0 +1,102 @@
+company:
+  name: "TechCorp Innovations"
+  founded: 2010
+  headquarters:
+    country: "USA"
+    state: "California"
+    city: "San Francisco"
+    address:
+      street: "123 Innovation Drive"
+      suite: "500"
+      zip: "94105"
+  departments:
+    - name: "Engineering"
+      manager:
+        id: "E001"
+        name: "Alice Johnson"
+        email: "alice.j@techcorp.com"
+        level: "Senior Director"
+      teams:
+        - name: "Backend Services"
+          lead:
+            id: "E101"
+            name: "Bob Chen"
+            tenure_years: 5
+          members:
+            - id: "E201"
+              name: "Carlos Rivera"
+              role: "Senior Developer"
+              skills:
+                - "Go"
+                - "Kubernetes"
+                - "PostgreSQL"
+              projects:
+                - name: "Auth Service"
+                  status: "active"
+                  tech_stack:
+                    - "Go"
+                    - "gRPC"
+                    - "OAuth2"
+                - name: "Payment Gateway"
+                  status: "maintenance"
+                  tech_stack:
+                    - "Java"
+                    - "Spring Boot"
+            - id: "E202"
+              name: "Diana Kim"
+              role: "DevOps Engineer"
+              skills:
+                - "Terraform"
+                - "AWS"
+                - "CI/CD"
+        - name: "Frontend Platform"
+          lead:
+            id: "E102"
+            name: "Eve Martinez"
+            tenure_years: 3
+          members:
+            - id: "E301"
+              name: "Frank Liu"
+              role: "UI Engineer"
+              framework_preference: "React"
+              accessibility_certified: true
+            - id: "E302"
+              name: "Grace Patel"
+              role: "UX Designer"
+              tools:
+                - "Figma"
+                - "Sketch"
+                - "Principle"
+    - name: "Product Management"
+      manager:
+        id: "P001"
+        name: "Henry Wong"
+        email: "henry.w@techcorp.com"
+      teams:
+        - name: "Core Product"
+          product_lines:
+            - name: "Analytics Dashboard"
+              version: "3.2"
+              release_date: "2025-06-15"
+            - name: "Mobile SDK"
+              version: "1.8"
+              platforms:
+                - "iOS"
+                - "Android"
+        - name: "Growth"
+          metrics:
+            kpis:
+              - "DAU"
+              - "Retention Rate"
+              - "Conversion Funnel"
+  subsidiaries:
+    - name: "TechCorp Europe"
+      location: "London, UK"
+      established: 2018
+    - name: "TechCorp Asia"
+      location: "Singapore"
+      established: 2020
+  metadata:
+    last_updated: "2025-11-14T10:30:00Z"
+    version: "2.1"
+    author: "admin@techcorp.com"

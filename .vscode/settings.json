@@ -1,0 +1,11 @@
+{
+    "git.ignoreLimitWarning": true,
+    "files.eol": "\n",
+    "editor.formatOnSave": true,
+    "files.exclude": {
+        "tmp/**": true
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+}

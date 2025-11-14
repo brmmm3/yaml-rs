@@ -1,0 +1,32 @@
+[package]
+name = "yaml-rs"
+version = "0.2.0"
+authors = ["Martin Bammer <mrbm74@gmail.com>"]
+description = "A fast YAML parser and generator written in Rust"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/brmmm3/yaml-rs"
+homepage = "https://github.com/brmmm3/yaml-rs"
+readme = "README.md"
+keywords = ["fast", "yaml"]
+include = [
+    "Cargo.toml",
+    "pyproject.toml",
+    "src/*",
+    "tests/*.py",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+]
+
+[lib]
+name = "yaml_rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+saphyr = "0.0.6"
+ordered-float = "5.1"
+encoding = "0.2"
+thiserror = "2.0"
+pyo3 = { version = "0.27.1", features = ["extension-module"] }
+serde = { version = "1.0", features = ["derive"] }

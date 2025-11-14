@@ -1,0 +1,43 @@
+[project]
+name = "yaml_rs"
+version = "0.1.0"
+authors = [{ name = "Martin Bammer", email = "mrbm74@gmail.com" }]
+description = "A fast YAML parser and generator written in Rust"
+license = "MIT"
+readme = "README.md"
+dependencies = []
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Rust",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "License :: OSI Approved :: MIT License",
+    'Topic :: Software Development :: Libraries',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    'Topic :: Utilities',
+]
+
+[build-system]
+requires = ["setuptools", "wheel", "setuptools_rust", "maturin>=1.5.1"]
+build-backend = "maturin"
+
+[tool.maturin]
+manylinux = "2_34"
+strip = true
+
+[tool.poetry.dependencies]
+python = '>=3.10'
+maturin = ">=1.10.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=9.0.1"

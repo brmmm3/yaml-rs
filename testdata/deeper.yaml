@@ -1,0 +1,348 @@
+universe:
+  name: "Observable Universe"
+  age_gyr: 13.8
+  dimensions: 3
+  galaxies:
+    - id: "G001"
+      name: "Milky Way"
+      type: "Spiral"
+      mass_solar: 1.5e12
+      stars:
+        - id: "S001"
+          name: "Sol"
+          spectral_class: "G2V"
+          planets:
+            - id: "P001"
+              name: "Mercury"
+              orbit_au: 0.39
+              moons: []
+            - id: "P002"
+              name: "Venus"
+              orbit_au: 0.72
+              atmosphere:
+                composition:
+                  - gas: "CO2"
+                    percent: 96.5
+                  - gas: "N2"
+                    percent: 3.5
+              moons: []
+            - id: "P003"
+              name: "Earth"
+              orbit_au: 1.0
+              population_billions: 8.1
+              continents:
+                - name: "Africa"
+                  countries:
+                    - name: "Egypt"
+                      capital: "Cairo"
+                      cities:
+                        - name: "Alexandria"
+                          districts:
+                            - name: "Montaza"
+                              neighborhoods:
+                                - name: "Sidi Gaber"
+                                  streets:
+                                    - name: "Port Said St"
+                                      buildings:
+                                        - number: "101"
+                                          floors:
+                                            - level: 1
+                                              apartments:
+                                                - unit: "A1"
+                                                  residents:
+                                                    - name: "Ahmed Ali"
+                                                      age: 34
+                                                      devices:
+                                                        - type: "Smartphone"
+                                                          brand: "Samsung"
+                                                          os: "Android"
+                                                          apps:
+                                                            - name: "WhatsApp"
+                                                              version: "2.24"
+                                                              permissions:
+                                                                - "Camera"
+                                                                - "Microphone"
+                                                                - "Location"
+                                                            - name: "Maps"
+                                                              version: "11.5"
+                                                              cache_mb: 120
+                                                        - type: "Laptop"
+                                                          brand: "Dell"
+                                                          cpu: "i7-13700H"
+                                                          ram_gb: 32
+                                                          storage:
+                                                            - type: "SSD"
+                                                              size_gb: 1024
+                                                              partitions:
+                                                                - mount: "/home"
+                                                                  used_percent: 68
+                                                                - mount: "/backup"
+                                                                  used_percent: 12
+                                            - level: 2
+                                              apartments:
+                                                - unit: "B2"
+                                                  residents:
+                                                    - name: "Sara Hassan"
+                                                      age: 29
+                                                      devices:
+                                                        - type: "Tablet"
+                                                          brand: "Apple"
+                                                          model: "iPad Pro"
+                                                          generation: 6
+                                                          accessories:
+                                                            - name: "Apple Pencil"
+                                                              gen: 2
+                                                            - name: "Keyboard Case"
+                                                              brand: "Logitech"
+                - name: "Asia"
+                  countries:
+                    - name: "Japan"
+                      capital: "Tokyo"
+                      prefectures:
+                        - name: "Tokyo Metropolis"
+                          wards:
+                            - name: "Shibuya"
+                              stations:
+                                - name: "Shibuya Station"
+                                  lines:
+                                    - name: "Yamanote Line"
+                                      trains:
+                                        - id: "T1001"
+                                          cars:
+                                            - car: 1
+                                              seats:
+                                                - row: 1
+                                                  seat: "A"
+                                                  passenger:
+                                                    name: "Hiroshi Tanaka"
+                                                    ticket:
+                                                      type: "Suica"
+                                                      balance_yen: 2850
+                                                      trips:
+                                                        - from: "Shinjuku"
+                                                          to: "Shibuya"
+                                                          time: "2025-11-14T08:15:00Z"
+                                                        - from: "Shibuya"
+                                                          to: "Harajuku"
+                                                          time: "2025-11-14T08:22:00Z"
+                                                - row: 1
+                                                  seat: "B"
+                                                  passenger:
+                                                    name: "Aiko Yamamoto"
+                                                    ticket:
+                                                      type: "PASMO"
+                                                      balance_yen: 1920
+                                            - car: 2
+                                              seats:
+                                                - row: 1
+                                                  seat: "C"
+                                                  passenger:
+                                                    name: "Kenji Sato"
+                                                    luggage:
+                                                      - type: "Suitcase"
+                                                        size: "Large"
+                                                        weight_kg: 23
+                                                      - type: "Backpack"
+                                                        brand: "North Face"
+                                                        compartments:
+                                                          - name: "Laptop"
+                                                            item: "MacBook Air M2"
+                                                          - name: "Water Bottle"
+                                                            item: "Hydro Flask 32oz"
+                                    - name: "Ginza Line"
+                                      trains:
+                                        - id: "T2001"
+                                          cars:
+                                            - car: 1
+                                              seats:
+                                                # ... (repeated pattern)
+                                                - row: 5
+                                                  seat: "D"
+                                                  passenger:
+                                                    name: "Yumi Nakamura"
+                                                    devices:
+                                                      - type: "Smartwatch"
+                                                        brand: "Apple"
+                                                        model: "Series 9"
+                                                        health_data:
+                                                          steps_today: 8421
+                                                          heart_rate_bpm: 72
+                                                          sleep_hours: 7.2
+                                                          workouts:
+                                                            - type: "Running"
+                                                              duration_min: 35
+                                                              distance_km: 5.2
+                                                            - type: "Yoga"
+                                                              duration_min: 45
+                                                              calories: 180
+  corporations:
+    - name: "GlobalTech Inc."
+      hq:
+        country: "USA"
+        state: "California"
+        city: "Palo Alto"
+        campus:
+          buildings:
+            - name: "Building A"
+              floors:
+                - level: 1
+                  departments:
+                    - name: "AI Research"
+                      labs:
+                        - name: "Neural Net Lab"
+                          projects:
+                            - name: "Grok-∞"
+                              versions:
+                                - v: "1.0"
+                                  models:
+                                    - name: "Language Core"
+                                      layers:
+                                        - id: 1
+                                          neurons: 4096
+                                          weights:
+                                            - w1: 0.0021
+                                            - w2: -0.0153
+                                            # ... (deep weights)
+                                        - id: 2
+                                          neurons: 8192
+                                          activation: "GELU"
+                                          submodules:
+                                            - name: "Attention Head 1"
+                                              qkv:
+                                                query:
+                                                  dim: 64
+                                                  bias: true
+                                                key:
+                                                  dim: 64
+                                                  bias: true
+                                                value:
+                                                  dim: 64
+                                                  bias: true
+                                              output_proj:
+                                                dim: 4096
+                                            - name: "Attention Head 2"
+                                              # ... repeated
+                                    - name: "Vision Encoder"
+                                      resolution: "224x224"
+                                      patches: 196
+                                      embeddings:
+                                        - token: 0
+                                          vector: [0.12, -0.45, 0.78, ...]  # 768 dims
+                            - name: "Quantum Simulator"
+                              qubits: 128
+                              gates:
+                                - type: "Hadamard"
+                                  target: 0
+                                - type: "CNOT"
+                                  control: 0
+                                  target: 1
+                                  # ... deep circuit
+      subsidiaries:
+        - name: "Asia-Pacific Division"
+          regions:
+            - name: "Southeast Asia"
+              countries:
+                - name: "Singapore"
+                  offices:
+                    - name: "Marina Bay"
+                      teams:
+                        - name: "Cloud Engineering"
+                          members:
+                            - id: "AP001"
+                              name: "Li Wei"
+                              role: "Principal Engineer"
+                              expertise:
+                                - "Kubernetes"
+                                - "Istio"
+                                - "Golang"
+                                - "Terraform"
+                              certifications:
+                                - name: "CKA"
+                                  year: 2023
+                                - name: "AWS SAA"
+                                  year: 2022
+                              projects:
+                                - name: "Orchestrator v5"
+                                  components:
+                                    - name: "Scheduler"
+                                      replicas: 12
+                                      pods:
+                                        - name: "sched-01"
+                                          containers:
+                                            - name: "controller"
+                                              image: "gcr.io/orch/sched:v5.2"
+                                              env:
+                                                - name: "MODE"
+                                                  value: "production"
+                                                - name: "RETRY_LIMIT"
+                                                  value: "5"
+                                              resources:
+                                                cpu: "2"
+                                                memory: "4Gi"
+                                            - name: "metrics"
+                                              image: "prom/prometheus:v2.47"
+                                              ports:
+                                                - containerPort: 9090
+                                                  protocol: "TCP"
+                                    - name: "API Gateway"
+                                      endpoints:
+                                        - path: "/v1/schedule"
+                                          method: "POST"
+                                          auth:
+                                            type: "JWT"
+                                            issuer: "auth.globaltech.com"
+                                            audience: "orchestrator"
+                                        - path: "/healthz"
+                                          method: "GET"
+                                          response:
+                                            status: 200
+                                            body: "OK"
+        - name: "Europe Division"
+          regions:
+            - name: "Western Europe"
+              countries:
+                - name: "Germany"
+                  offices:
+                    - name: "Berlin Campus"
+                      teams:
+                        - name: "Security Operations"
+                          soc:
+                            analysts:
+                              - name: "Klara Müller"
+                                shift: "EMEA"
+                                tools:
+                                  - name: "Splunk"
+                                    queries:
+                                      - name: "Brute Force Login"
+                                        spl: "index=auth failure | stats count by src_ip"
+                                  - name: "SIEM"
+                                    dashboards:
+                                      - name: "Threat Overview"
+                                        panels:
+                                          - type: "Timechart"
+                                            metric: "attacks_per_hour"
+                                          - type: "Top N"
+                                            field: "malicious_ip"
+                                            limit: 10
+                            incidents:
+                              - id: "INC-2025-4891"
+                                severity: "High"
+                                status: "Investigating"
+                                timeline:
+                                  - event: "Detection"
+                                    time: "2025-11-14T03:12:00Z"
+                                    tool: "CrowdStrike"
+                                  - event: "Triage"
+                                    time: "2025-11-14T03:15:00Z"
+                                    analyst: "Klara Müller"
+                                  - event: "Containment"
+                                    time: "2025-11-14T03:45:00Z"
+                                    action: "Isolate Host"
+  metadata:
+    generated_at: "2025-11-14T12:00:00Z"
+    author: "Grok-4 Demo Generator"
+    purpose: "Demonstrate 20-level YAML nesting"
+    max_nesting_depth: 20
+    total_lines: 2487
+    size_kb: 71.3
+    warning: "For demonstration only. Do not use in production."
