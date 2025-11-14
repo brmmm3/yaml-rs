@@ -3,6 +3,8 @@ import time
 from typing import Tuple
 
 import yaml
+from yaml import CLoader, CDumper
+from yaml import Loader, Dumper
 
 import yaml_rs
 
@@ -21,8 +23,9 @@ def benchmark_do(filename: str) -> Tuple[float, float, float, float]:
     dt_yaml_rs_load = time.time() - t1
 
     t1 = time.time()
-    yaml_rs.save(outpathname_yaml_rs, data_yaml_rs[0])
+    yaml_rs.save(outpathname_yaml_rs, data_yaml_rs)
     dt_yaml_rs_save = time.time() - t1
+    t1 = time.time()
 
     # data_yaml_rs_check = yaml_rs.load(outpathname_yaml_rs)
     # if data_yaml_rs != data_yaml_rs_check:
@@ -30,12 +33,12 @@ def benchmark_do(filename: str) -> Tuple[float, float, float, float]:
 
     t1 = time.time()
     with open(pathname, "r") as F:
-        data_yaml = list(yaml.safe_load_all(F))
+        data_yaml = list(yaml.load_all(F, Loader=CLoader))
     dt_yaml_load = time.time() - t1
 
     t1 = time.time()
     with open(outpathname_yaml, "w") as F:
-        yaml.dump_all(data_yaml[0], F)
+        yaml.dump_all(data_yaml, F, Dumper=CDumper)
     dt_yaml_save = time.time() - t1
 
     # data_yaml_check = yaml_rs.load(outpathname_yaml_rs)
@@ -74,4 +77,6 @@ def benchmark(filename: str):
 benchmark("garden.yaml")
 benchmark("deep.yaml")
 benchmark("deeper.yaml")
+benchmark("1mb.yaml")
+benchmark("5mb.yaml")
 benchmark("15mb.yaml")
