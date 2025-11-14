@@ -1,7 +1,9 @@
 # yaml_rs
 
-The Python module is called `yaml_rs` and installable via `pip`. It is a faster alternative to the `pyyaml` module with higher speed. Parsing is up to **57 times faster**  and saving sometimes faster, sometimes slower (see [benchmarks](https://github.com/brmmm3/yaml-rs/doc/benchmarks.md)).  
-It releases the GIL.
+The Python module is called `yaml_rs` and is installable via `pip`. It is a faster alternative to the `PyYAML` module. Parsing is up to **7.6 times faster** and saving up to **10.6 times** (see [benchmarks](https://github.com/brmmm3/yaml-rs/doc/benchmarks.md)).  
+As `yaml_rs` releases the GIL it's performance is even better compared to `PyYAML`.
+
+`yaml_rs` is just a thin Python layer around the `saphyr` Rust crate, which is a fast ad fully YAML 1.2 compliant parser and generator.
 
 ## Installation
 
@@ -13,46 +15,21 @@ Install `maturin`:
 cargo install maturin
 ```
 
-IMPORTANT: In order to build this project at least Rust version 1.61 is needed!
+On Linux further docker is needed for building manylinux wheels.
 
 **Build wheel:**
 
-Build wheel (on Linux):
+First create the docker image:
 
 ```sh
-maturin build --release --strip
+create_docker_image.sh
 ```
 
-Build wheel on Windows:
+Then build the wheels with docker (on Linux):
 
 ```sh
-maturin build --release --strip --no-sdist
+build_wheels_with_docker.sh
 ```
-
-``maturin`` will build the wheels for all Python versions installed on your system.
-
-Alternatively you can use the build script `build_wheels.py`. The precondition to run this script is to have `pyenv` installed.
-The script can build the wheel for specific Python versions or for all Python versions installed by `pyenv`.
-In addition it runs ``pytest`` after successfull creation of each wheel.
-
-```sh
-python build_wheels.py
-```
-
-By default the script will build the wheel for the current Python interpreter.
-If you want to build the wheel for specific Python version(s) by providing the argument `--versions`.
-
-```sh
-python build_wheels.py --versions 3.11.8,3.12.2
-```
-
-To build the wheel for all installed Python versions:
-
-```sh
-python build_wheels.py --versions *
-```
-
-Instruction how to install ``pyenv`` can be found [here](https://github.com/pyenv/pyenv).
 
 ## Examples
 
