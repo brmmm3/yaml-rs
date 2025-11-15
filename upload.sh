@@ -1,1 +1,1 @@
-twine upload ../target/wheels/*
+twine upload dist/*

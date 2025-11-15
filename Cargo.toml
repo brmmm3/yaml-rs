@@ -1,6 +1,6 @@
 [package]
 name = "yaml_rs"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Martin Bammer <mrbm74@gmail.com>"]
 description = "A fast YAML parser and generator written in Rust"
 edition = "2024"
@@ -31,6 +31,7 @@ thiserror = "2.0"
 pyo3 = { version = "0.27.1", features = ["extension-module"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.9"
+mimalloc = { version = "*", features = ["v3"] }
 
 [profile.release]
 opt-level = 3

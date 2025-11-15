@@ -3,6 +3,9 @@ use pyo3::prelude::*;
 mod decoder;
 mod yaml;
 
+#[global_allocator]
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 /// yaml_rs is the Python layer for the saphyr YAML parser/generator.
 #[pymodule]
 #[pyo3(name = "yaml_rs")]

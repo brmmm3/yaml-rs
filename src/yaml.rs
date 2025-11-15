@@ -80,60 +80,6 @@ pub fn from_string(data: &str, py: Python<'_>) -> PyResult<Py<PyAny>> {
     Ok(list.as_any().to_owned().unbind())
 }
 
-fn py_to_yaml_saphyr(obj: Py<PyAny>, py: Python<'_>) -> PyResult<saphyr::Yaml<'_>> {
-    let obj = obj.bind(py);
-
-    if let Ok(s) = obj.cast::<PyString>() {
-        let s = s.to_str()?.to_owned();
-        Ok(saphyr::Yaml::Value(saphyr::Scalar::String(Cow::Owned(s))))
-    } else if let Ok(i) = obj.cast::<PyInt>() {
-        let i: i64 = i.extract()?;
-        Ok(saphyr::Yaml::Value(saphyr::Scalar::Integer(i)))
-    } else if let Ok(f) = obj.cast::<PyFloat>() {
-        let f: f64 = f.extract()?;
-        Ok(saphyr::Yaml::Value(saphyr::Scalar::FloatingPoint(
-            OrderedFloat(f),
-        )))
-    } else if let Ok(b) = obj.cast::<PyBool>() {
-        let b: bool = b.extract()?;
-        Ok(saphyr::Yaml::Value(saphyr::Scalar::Boolean(b)))
-    } else if obj.is_none() {
-        Ok(saphyr::Yaml::Value(saphyr::Scalar::Null))
-    } else if let Ok(list) = obj.cast::<PyList>() {
-        let mut seq = saphyr::Sequence::with_capacity(list.len());
-        for item in list.iter() {
-            seq.push(py_to_yaml_saphyr(item.into(), py)?);
-        }
-        Ok(saphyr::Yaml::Sequence(seq))
-    } else if let Ok(tuple) = obj.cast::<PyTuple>() {
-        let mut seq = saphyr::Sequence::with_capacity(tuple.len());
-        for item in tuple.iter() {
-            seq.push(py_to_yaml_saphyr(item.into(), py)?);
-        }
-        Ok(saphyr::Yaml::Sequence(seq))
-    } else if let Ok(dict) = obj.cast::<PyDict>() {
-        let mut map = saphyr::Mapping::with_capacity(dict.len());
-        for (k, v) in dict.iter() {
-            let key = k
-                .cast::<PyString>()
-                .map_err(|_| PyErr::new::<PyTypeError, _>("Dict keys must be strings"))?
-                .to_str()?
-                .to_owned();
-            let value = py_to_yaml_saphyr(v.into(), py)?;
-            map.insert(
-                saphyr::Yaml::Value(saphyr::Scalar::String(Cow::Owned(key))),
-                value,
-            );
-        }
-        Ok(saphyr::Yaml::Mapping(map))
-    } else {
-        Err(PyErr::new::<PyTypeError, _>(format!(
-            "Unsupported type: {}",
-            obj.get_type().name()?
-        )))
-    }
-}
-
 pub fn py_to_yaml(obj: Py<PyAny>, py: Python<'_>) -> PyResult<Value> {
     let obj = obj.bind(py);
 
@@ -197,6 +143,80 @@ pub fn py_to_yaml(obj: Py<PyAny>, py: Python<'_>) -> PyResult<Value> {
     )))
 }
 
+/// Return Python object -> YAML string
+#[pyfunction]
+pub fn dump(obj: Py<PyAny>, py: Python<'_>) -> PyResult<String> {
+    let yaml = py_to_yaml(obj, py)?;
+    py.detach(|| {
+        serde_yaml::to_string(&yaml).map_err(|e| {
+            PyErr::new::<pyo3::exceptions::PyValueError, _>(format!("YAML dump error: {}", e))
+        })
+    })
+}
+
+/// Write Python object -> YAML file
+#[pyfunction]
+pub fn save(path: &str, obj: Py<PyAny>, py: Python<'_>) -> PyResult<()> {
+    let data = dump(obj, py)?;
+    Ok(py.detach(|| {
+        std::fs::write(path, data).map_err(|e| PyErr::new::<PyIOError, _>(e.to_string()))
+    })?)
+}
+
+fn py_to_yaml_saphyr(obj: Py<PyAny>, py: Python<'_>) -> PyResult<saphyr::Yaml<'_>> {
+    let obj = obj.bind(py);
+
+    if let Ok(s) = obj.cast::<PyString>() {
+        let s = s.to_str()?.to_owned();
+        Ok(saphyr::Yaml::Value(saphyr::Scalar::String(Cow::Owned(s))))
+    } else if let Ok(i) = obj.cast::<PyInt>() {
+        let i: i64 = i.extract()?;
+        Ok(saphyr::Yaml::Value(saphyr::Scalar::Integer(i)))
+    } else if let Ok(f) = obj.cast::<PyFloat>() {
+        let f: f64 = f.extract()?;
+        Ok(saphyr::Yaml::Value(saphyr::Scalar::FloatingPoint(
+            OrderedFloat(f),
+        )))
+    } else if let Ok(b) = obj.cast::<PyBool>() {
+        let b: bool = b.extract()?;
+        Ok(saphyr::Yaml::Value(saphyr::Scalar::Boolean(b)))
+    } else if obj.is_none() {
+        Ok(saphyr::Yaml::Value(saphyr::Scalar::Null))
+    } else if let Ok(list) = obj.cast::<PyList>() {
+        let mut seq = saphyr::Sequence::with_capacity(list.len());
+        for item in list.iter() {
+            seq.push(py_to_yaml_saphyr(item.into(), py)?);
+        }
+        Ok(saphyr::Yaml::Sequence(seq))
+    } else if let Ok(tuple) = obj.cast::<PyTuple>() {
+        let mut seq = saphyr::Sequence::with_capacity(tuple.len());
+        for item in tuple.iter() {
+            seq.push(py_to_yaml_saphyr(item.into(), py)?);
+        }
+        Ok(saphyr::Yaml::Sequence(seq))
+    } else if let Ok(dict) = obj.cast::<PyDict>() {
+        let mut map = saphyr::Mapping::with_capacity(dict.len());
+        for (k, v) in dict.iter() {
+            let key = k
+                .cast::<PyString>()
+                .map_err(|_| PyErr::new::<PyTypeError, _>("Dict keys must be strings"))?
+                .to_str()?
+                .to_owned();
+            let value = py_to_yaml_saphyr(v.into(), py)?;
+            map.insert(
+                saphyr::Yaml::Value(saphyr::Scalar::String(Cow::Owned(key))),
+                value,
+            );
+        }
+        Ok(saphyr::Yaml::Mapping(map))
+    } else {
+        Err(PyErr::new::<PyTypeError, _>(format!(
+            "Unsupported type: {}",
+            obj.get_type().name()?
+        )))
+    }
+}
+
 // Helper: Yaml -> String using YamlEmitter
 fn yaml_to_string(yaml: &saphyr::Yaml) -> PyResult<String> {
     let mut output = String::new();
@@ -222,26 +242,6 @@ pub fn dump_saphyr(obj: Py<PyAny>, py: Python<'_>) -> PyResult<String> {
 #[pyfunction]
 pub fn save_saphyr(path: &str, obj: Py<PyAny>, py: Python<'_>) -> PyResult<()> {
     let data = dump_saphyr(obj, py)?;
-    Ok(py.detach(|| {
-        std::fs::write(path, data).map_err(|e| PyErr::new::<PyIOError, _>(e.to_string()))
-    })?)
-}
-
-/// Return Python object -> YAML string
-#[pyfunction]
-pub fn dump(obj: Py<PyAny>, py: Python<'_>) -> PyResult<String> {
-    let yaml = py_to_yaml(obj, py)?;
-    py.detach(|| {
-        serde_yaml::to_string(&yaml).map_err(|e| {
-            PyErr::new::<pyo3::exceptions::PyValueError, _>(format!("YAML dump error: {}", e))
-        })
-    })
-}
-
-/// Write Python object -> YAML file
-#[pyfunction]
-pub fn save(path: &str, obj: Py<PyAny>, py: Python<'_>) -> PyResult<()> {
-    let data = dump(obj, py)?;
     Ok(py.detach(|| {
         std::fs::write(path, data).map_err(|e| PyErr::new::<PyIOError, _>(e.to_string()))
     })?)

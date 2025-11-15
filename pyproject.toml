@@ -1,6 +1,6 @@
 [project]
 name = "yaml_rs"
-version = "0.2.0"
+version = "0.3.0"
 authors = [{ name = "Martin Bammer", email = "mrbm74@gmail.com" }]
 description = "A fast YAML parser and generator written in Rust"
 license = { text = "MIT" }
