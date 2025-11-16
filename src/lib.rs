@@ -2,6 +2,8 @@ mod decoder;
 mod dumps;
 mod loads;
 
+use std::borrow::Cow;
+
 use crate::{
     decoder::encode,
     dumps::python_to_yaml,
@@ -12,7 +14,7 @@ use pyo3::{
     create_exception,
     exceptions::{PyTypeError, PyValueError},
     prelude::*,
-    types::{PyBytes, PyString},
+    types::PyString,
 };
 
 #[cfg(feature = "default")]
@@ -30,22 +32,27 @@ fn _load(
     encoding: Option<String>,
     encoder_errors: Option<String>,
 ) -> PyResult<Py<PyAny>> {
-    let obj = obj.bind(py);
-    let data = if let Ok(str) = obj.cast::<PyString>() {
-        // We assume obj to be a path to a file
-        let path = str.to_str()?;
-        py.detach(|| std::fs::read(path))?
-    } else if let Ok(b) = obj.cast::<PyBytes>() {
-        b.as_unbound().extract(py)?
+    let obj_bound = obj.bind_borrowed(py);
+    let py = obj_bound.py();
+
+    let data: Cow<[u8]> = if let Ok(string) = obj_bound.cast::<PyString>() {
+        let path = string.to_str()?;
+        Cow::Owned(py.detach(|| std::fs::read(path))?)
     } else {
-        // We assume/expect BinaryIO type. Read the whole file.
-        obj.call_method0("read")?.extract()?
+        obj_bound.extract().or_else(|_| {
+            obj_bound
+                .call_method0("read")?
+                .extract::<Vec<u8>>()
+                .map(Cow::Owned)
+        })?
     };
+
     let s = py
         .detach(|| encode(&data, encoding.as_deref(), encoder_errors.as_deref()))
         .map_err(|err| {
             PyErr::new::<PyValueError, _>(format!("Failed to encode bytes to UTF-8 string: {err}"))
         })?;
+
     _loads(py, &s, parse_datetime)
 }
 
