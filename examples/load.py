@@ -3,7 +3,6 @@ from pprint import pprint
 
 import yaml_rs
 
-
 pprint(yaml_rs.load("config.yaml"))
 
 pprint(yaml_rs.load(Path("config.yaml").read_bytes()))
