@@ -40,8 +40,13 @@ def load(
 
 
 def loads(
-    s: str, /, *, parse_datetime: bool = True
+    s: str,
+    /,
+    *,
+    parse_datetime: bool = True,
 ) -> dict[str, Any] | list[dict[str, Any]]:
+    if not isinstance(s, str):
+        raise TypeError(f"Expected str object, not '{type(s).__qualname__}'")
     return _loads(s, parse_datetime=parse_datetime)
 
 
